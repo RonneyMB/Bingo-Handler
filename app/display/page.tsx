@@ -21,22 +21,24 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: '100vh',
     width: '100%',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     background: 'linear-gradient(145deg, #1A2F2A 0%, #0D231F 100%)',
-    padding: 'clamp(16px, 3vw, 40px)',
-    gap: 'clamp(12px, 2vw, 24px)',
+    padding: 'clamp(20px, 4vw, 60px)',
+    gap: 'clamp(30px, 5vw, 80px)',
     boxSizing: 'border-box',
   },
-  ballWrapper: {
+  leftSection: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    flex: '0 0 auto',
   },
   ball: {
-    width: 'clamp(280px, 35vw, 420px)',
-    height: 'clamp(280px, 35vw, 420px)',
+    width: 'clamp(320px, 40vw, 500px)',
+    height: 'clamp(320px, 40vw, 500px)',
     borderRadius: '50%',
     display: 'flex',
     alignItems: 'center',
@@ -55,7 +57,7 @@ const styles: Record<string, React.CSSProperties> = {
     boxShadow: 'none',
   },
   ballText: {
-    fontSize: 'clamp(3.5rem, 8vw, 6rem)',
+    fontSize: 'clamp(4rem, 10vw, 8rem)',
     fontWeight: 900,
     fontFamily: '"Inter", monospace',
     letterSpacing: '2px',
@@ -63,61 +65,70 @@ const styles: Record<string, React.CSSProperties> = {
     textShadow: '0 4px 8px rgba(255, 215, 120, 0.6)',
   },
   ballTextEmpty: {
-    fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+    fontSize: 'clamp(3rem, 8vw, 6rem)',
     color: 'rgba(255, 215, 140, 0.4)',
     textShadow: 'none',
   },
   label: {
-    fontSize: 'clamp(1rem, 2vw, 1.5rem)',
+    fontSize: 'clamp(1rem, 2vw, 1.8rem)',
     textTransform: 'uppercase',
     letterSpacing: 'clamp(4px, 1vw, 8px)',
     fontWeight: 700,
     color: '#E8C88C',
     background: 'rgba(0, 0, 0, 0.5)',
-    padding: 'clamp(8px, 1.5vw, 14px) clamp(16px, 3vw, 32px)',
+    padding: 'clamp(10px, 2vw, 16px) clamp(20px, 4vw, 40px)',
     borderRadius: '60px',
     backdropFilter: 'blur(8px)',
+    marginTop: 'clamp(16px, 3vw, 32px)',
+  },
+  rightSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    flex: '1 1 auto',
+    width: '100%',
+  },
+  historyTitle: {
+    fontSize: 'clamp(1.2rem, 2.5vw, 2rem)',
+    fontWeight: 700,
+    color: '#E8C88C',
+    textAlign: 'left',
+    marginBottom: 'clamp(12px, 2vw, 20px)',
+    letterSpacing: '3px',
+    textTransform: 'uppercase',
   },
   historyContainer: {
-    width: 'clamp(320px, 80vw, 700px)',
+    width: '100%',
     background: 'rgba(0, 0, 0, 0.4)',
     borderRadius: 'clamp(20px, 3vw, 32px)',
-    padding: 'clamp(10px, 2vw, 16px)',
+    padding: 'clamp(20px, 3vw, 36px)',
     border: '1px solid rgba(232, 200, 140, 0.2)',
-    maxHeight: 'clamp(120px, 25vh, 200px)',
+    maxHeight: 'clamp(400px, 70vh, 700px)',
     overflowY: 'auto',
     overflowX: 'hidden',
   },
-  historyTitle: {
-    fontSize: 'clamp(0.85rem, 1.5vw, 1.2rem)',
-    fontWeight: 700,
-    color: '#E8C88C',
-    textAlign: 'center',
-    marginBottom: 'clamp(6px, 1vw, 12px)',
-    letterSpacing: '2px',
-    textTransform: 'uppercase',
-  },
-  historyChips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 'clamp(4px, 1vw, 10px)',
-    justifyContent: 'center',
-    alignContent: 'flex-start',
+  historyTable: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 'clamp(16px, 2.5vw, 28px)',
   },
   chip: {
     background: 'linear-gradient(145deg, #3D5B4F, #2F4B3F)',
-    padding: 'clamp(4px, 0.8vw, 8px) clamp(8px, 1.5vw, 14px)',
+    padding: 'clamp(24px, 4vw, 40px) clamp(32px, 5vw, 56px)',
     borderRadius: '50px',
     fontWeight: 700,
-    fontSize: 'clamp(0.8rem, 1.2vw, 1.1rem)',
+    fontSize: 'clamp(1.8rem, 3.5vw, 3rem)',
     color: '#FFEBC4',
     display: 'inline-flex',
     alignItems: 'baseline',
-    gap: '2px',
+    gap: 'clamp(8px, 1.5vw, 14px)',
+    justifyContent: 'center',
   },
   chipLetter: {
     fontWeight: 900,
     color: '#FFD58C',
+    fontSize: 'clamp(2rem, 4vw, 3.4rem)',
   },
   emptyText: {
     color: '#9BAA9C',
@@ -186,7 +197,7 @@ export default function DisplayPage() {
     <>
       <GlobalStyles />
       <div style={styles.container}>
-        <div style={styles.ballWrapper}>
+        <div style={styles.leftSection}>
           <div
             style={{
               ...styles.ball,
@@ -197,26 +208,27 @@ export default function DisplayPage() {
               {isEmpty ? '🎯' : formatBallText(currentNumber)}
             </span>
           </div>
+          <div style={styles.label}>NÚMERO CANTADO</div>
         </div>
 
-        <div style={styles.label}>NÚMERO CANTADO</div>
-
-        <div style={styles.historyContainer}>
+        <div style={styles.rightSection}>
           <div style={styles.historyTitle}>HISTORIAL ({calledNumbers.length})</div>
-          <div style={styles.historyChips}>
-            {calledNumbers.length === 0 ? (
-              <div style={styles.emptyText}>Sin números cantados</div>
-            ) : (
-              [...calledNumbers].reverse().map((num) => {
-                const letter = getLetterByNumber(num);
-                return (
-                  <div key={num} style={styles.chip}>
-                    <span style={styles.chipLetter}>{letter}</span>
-                    <span>{num}</span>
-                  </div>
-                );
-              })
-            )}
+          <div style={styles.historyContainer}>
+            <div style={styles.historyTable}>
+              {calledNumbers.length === 0 ? (
+                <div style={styles.emptyText}>Sin números cantados</div>
+              ) : (
+                [...calledNumbers].reverse().map((num) => {
+                  const letter = getLetterByNumber(num);
+                  return (
+                    <div key={num} style={styles.chip}>
+                      <span style={styles.chipLetter}>{letter}</span>
+                      <span>{num}</span>
+                    </div>
+                  );
+                })
+              )}
+            </div>
           </div>
         </div>
       </div>
